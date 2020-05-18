@@ -137,4 +137,16 @@ public class AppCardTest {
                 .shouldHave(exactText("Я соглашаюсь с условиями обработки и использования моих персональных данных"));
     }
 
+    @Test
+    void shouldGetErrorMessageIfSubmitWithWrongNumber() {
+        form.$("[placeholder='Город']").setValue(dataGenerator.makeCity());
+        form.$("[placeholder='Дата встречи']").doubleClick().sendKeys(dataGenerator.forwardDate(3));
+        form.$("[name=name]").setValue(dataGenerator.makeName());
+        form.$("[name=phone]").setValue(dataGenerator.makeInvalidPhone());
+        form.$(".checkbox__box").click();
+        $(".button__text").click();
+        form.$(".input_theme_alfa-on-white.input_invalid .input__sub")
+                .shouldHave(exactText("Введен неправильный номер телефона"));
+    }
+
 }
